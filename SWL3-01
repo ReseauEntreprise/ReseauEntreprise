@@ -1,0 +1,91 @@
+enable
+!
+configure terminal
+!
+hostname SWL3-01
+!
+ip routing
+!
+username admin secret admin
+!
+ip domain-name bephec.org
+!
+line console 0
+ password admin
+ login
+!
+service password-encryption
+!
+ip ssh version 2
+!
+line vty 0 15
+ login local
+ transport input ssh
+!
+crypto key generate rsa
+ 1024 
+!
+vlan 10
+ name IT
+!
+!
+vlan 20
+ name EMPLOYES
+!
+!
+vlan 100
+ name PROXMOX
+!
+!
+interface vlan 10
+ ip address 10.2.10.254 255.255.255.0
+ no shut
+!
+!
+interface vlan 20
+ ip address 10.2.20.254 255.255.255.0
+ no shut
+!
+!
+interface vlan 100
+ ip address 10.2.100.254 255.255.255.0
+ no shut
+!
+!
+interface F0/13
+ no switchport
+ ip address 10.99.1.253 255.255.255.252
+ no shut
+!
+!
+interface F0/1
+ no switchport
+ ip address 10.99.2.253 255.255.255.252
+ no shut
+!
+!
+interface F0/2
+ switchport trunk encapsulation dot1Q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,100
+!
+interface F0/3
+ no switchport
+ ip address 10.4.0.254 255.255.255.0
+ no shut
+!
+exit
+router ospf 1
+passive-interface FastEthernet0/2
+passive-interface FastEthernet0/3
+network 10.2.0.0 0.0.255.255 area 0
+network 10.4.0.0 0.0.0.255 area 0
+network 10.99.1.252 0.0.0.3 area 0
+network 10.99.2.252 0.0.0.3 area 0
+default-information originate
+!
+ip route 0.0.0.0 0.0.0.0 10.99.1.254
+!
+end
+!
+copy running-config startup-config
