@@ -9,3 +9,30 @@ on:
     branches:
       - main
       - dev
+
+jobs:
+  lint-and-test:
+    name: Lint, Test & Dependency Check
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:5.0
+        ports:
+          - 27017:27017
+        options: --quiet
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd bephec
+          npm install
