@@ -41,3 +41,9 @@ jobs:
         run: |
           cd Bephec
           npx eslint .
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-build
+          path: Bephec/dist
