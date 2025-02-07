@@ -36,3 +36,9 @@ jobs:
         run: |
           cd Bephec
           npm install
+
+  # 6. Lint Frontend
+      - name: Lint Frontend Code
+        run: |
+          cd front
+          npx eslint .
