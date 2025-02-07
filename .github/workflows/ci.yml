@@ -34,5 +34,5 @@ jobs:
 
       - name: Install Frontend Dependencies
         run: |
-          cd bephec
+          cd Bephec
           npm install
