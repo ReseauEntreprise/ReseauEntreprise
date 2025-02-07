@@ -42,6 +42,12 @@ jobs:
           cd Bephec
           npx eslint .
 
+
+      - name: Build Frontend
+        run: |
+          cd Bephec
+          npm run build
+
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
